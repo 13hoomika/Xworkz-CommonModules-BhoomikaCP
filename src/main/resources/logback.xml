@@ -1,0 +1,63 @@
+<!--<configuration debug="true">-->
+
+<!--    &lt;!&ndash; Console Appender &ndash;&gt;-->
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+<!--        </layout>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; File Appender &ndash;&gt;-->
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>D:/Project/logs/xworkz_common_module.log</file>-->
+<!--        <append>true</append>-->
+<!--        <immediateFlush>true</immediateFlush>-->
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+<!--        </layout>-->
+<!--    </appender>-->
+
+
+<!--    &lt;!&ndash; Root Logger &ndash;&gt;-->
+<!--    <root level="debug">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--        <appender-ref ref="FILE"/>-->
+<!--    </root>-->
+<!--</configuration>-->
+<configuration>
+
+    <!-- Define the log file path -->
+    <property name="LOG_FILE" value="logs/app.log" />
+
+    <!-- Console Appender (Print logs in console) -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Rolling File Appender (Save logs in a file & rotate daily) -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--        <file>${LOG_FILE}</file>-->
+        <file>D:/Project/logs/Xworkz_CommonModule.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern> <!-- Daily log files -->
+            <maxHistory>7</maxHistory> <!-- Keep logs for the last 7 days -->
+            <totalSizeCap>100MB</totalSizeCap> <!-- Limit total log size to 100MB -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Set the logging level and use both console and file appenders -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ROLLING_FILE" />
+    </root>
+
+    <!-- Logging levels for specific packages (optional) -->
+    <logger name="org.springframework" level="warn" /> <!-- Reduce Spring logs -->
+    <logger name="com.xworkz.userapp" level="debug" /> <!-- More logs for your package -->
+
+</configuration>
